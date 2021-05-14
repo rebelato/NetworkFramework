@@ -15,7 +15,7 @@ public class NetworkHandler: NetworkHandlerProtocol {
     
     public let service: NetworkServiceProtocol
     
-    public init(service: NetworkServiceProtocol) {
+    public init(service: NetworkServiceProtocol = NetworkService()) {
         self.service = service
     }
 

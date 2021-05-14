@@ -16,14 +16,13 @@ public protocol NetworkServiceProtocol {
 public class NetworkService: NetworkServiceProtocol {
 
     private let service: URLSession
-    private let token = "?api_key=RGAPI-156e889c-75bc-42bb-bb64-8ffd8b275757"
     
-    private init(service: URLSession = URLSession.shared) {
+    public init(service: URLSession = URLSession.shared) {
         self.service = service
     }
     
     public func request(with endpoint: String, completion: @escaping(DataResponse)) {
-        guard let url = URL(string: endpoint + token) else {
+        guard let url = URL(string: endpoint) else {
             completion(nil, nil, NetworkError.badRequest)
             return
         }
