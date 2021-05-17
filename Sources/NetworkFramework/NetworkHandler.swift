@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import UIKit
 
 public protocol NetworkHandlerProtocol {
     func request<T: Decodable>(with url: String, completion: @escaping (Result<T, NetworkError>) -> Void)
+    func downloadImage(with url: String, completion: @escaping (Result<UIImage?, NetworkError>) -> Void)
 }
 
 public class NetworkHandler: NetworkHandlerProtocol {
@@ -22,6 +24,16 @@ public class NetworkHandler: NetworkHandlerProtocol {
     public func request<T: Decodable>(with url: String, completion: @escaping (Result<T, NetworkError>) -> Void) {
         service.request(with: url) { (data, response, error) in
             completion(self.handleResult(data: data, response: response, error: error))
+        }
+    }
+    
+    public func downloadImage(with url: String, completion: @escaping (Result<UIImage?, NetworkError>) -> Void) {
+        service.request(with: url) { (data, response, error) in
+            guard let data = data else {
+                completion(.failure(.parseError))
+                return
+            }
+            completion(.success(UIImage(data: data)))
         }
     }
     
